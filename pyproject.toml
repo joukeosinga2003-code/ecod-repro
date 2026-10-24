@@ -1,0 +1,17 @@
+[project]
+name = "ecod-repro"
+version = "0.1.0"
+description = "Reproduction of ECOD (Li et al., TKDE 2022) on the ODDS benchmark datasets"
+requires-python = ">=3.14"
+dependencies = [
+    "numpy>=2.5.4",
+    "pandas>=3.0.6",
+    "pyod>=3.6.7",
+    "requests>=2.34.2",
+    "scikit-learn>=1.9.1",
+    "scipy>=1.18.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.4,<0.13.0"]
+build-backend = "uv_build"
