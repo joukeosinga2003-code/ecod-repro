@@ -20,20 +20,14 @@ def main():
         theirs = paper[paper.metric == metric].pivot(index="dataset", columns="detector", values="value")
         mine = mine.loc[theirs.index]
 
-        # ECOD per dataset: paper vs PyOD ECOD vs Algorithm 1
-        ecod = pd.DataFrame({
-            "paper": theirs["ECOD"],
-            "PyOD ECOD": mine["ECOD"],
-            "Alg.1 ECOD": mine["ECOD-Alg1"],
-        })
-        ecod["diff (PyOD)"] = ecod["PyOD ECOD"] - ecod["paper"]
-        ecod["diff (Alg.1)"] = ecod["Alg.1 ECOD"] - ecod["paper"]
+        # ECOD per dataset: paper vs ours
+        ecod = pd.DataFrame({"paper": theirs["ECOD"], "ours": mine["ECOD"]})
+        ecod["diff"] = ecod["ours"] - ecod["paper"]
         ecod.loc["MEAN"] = ecod.mean()
 
         # averages over the 14 datasets for every detector both of us ran
         common = [c for c in theirs.columns if c in mine.columns]
         avg = pd.DataFrame({"paper": theirs[common].mean(), "ours": mine[common].mean()})
-        avg.loc["ECOD-Alg1"] = [float("nan"), mine["ECOD-Alg1"].mean()]
         avg["diff"] = avg["ours"] - avg["paper"]
         avg = avg.sort_values("ours", ascending=False)
 
